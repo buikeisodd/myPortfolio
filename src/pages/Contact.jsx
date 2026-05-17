@@ -209,13 +209,13 @@ export default function Contact() {
                 <InfoItem
                   icon={Mail}
                   label="Email"
-                  value="alex@alexdev.io"
-                  href="mailto:alex@alexdev.io"
+                  value="chibuikeeseagwu02@gmail.com"
+                  href="mailto:chibuikeeseagwu02@gmail.com"
                 />
                 <InfoItem
                   icon={MapPin}
                   label="Location"
-                  value="San Francisco, CA — Remote Friendly"
+                  value="Lagos, Nigeria — Remote Friendly"
                 />
               </div>
 

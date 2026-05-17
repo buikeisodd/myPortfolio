@@ -12,7 +12,6 @@ import {
   Code2,
   Layers,
   Zap,
-  Terminal,
   Star,
   Coffee,
   Briefcase,
@@ -44,19 +43,18 @@ const roles = [
 /* ── Tech stack items ── */
 const stack = [
   { name: "React", color: "#61dafb" },
-  { name: "HTML5", color: "#3178c6" },
-  { name: "Git", color: "#68a063" },
+  { name: "HTML5", color: "#e34f26" },
+  { name: "Git", color: "#f05032" },
   { name: "Vercel", color: "#ffffff" },
-
   { name: "Tailwind CSS", color: "#38bdf8" },
 ];
 
 /* ── Stats ── */
 const stats = [
-  { icon: Briefcase, value: "5+", label: "Years Experience" },
-  { icon: Star, value: "40+", label: "Projects Shipped" },
-  { icon: Users, value: "20+", label: "Happy Clients" },
-  { icon: Coffee, value: "∞", label: "Coffees Brewed" },
+  { icon: Briefcase, value: "5+", label: "Years Exp." },
+  { icon: Star, value: "40+", label: "Projects" },
+  { icon: Users, value: "20+", label: "Clients" },
+  { icon: Coffee, value: "∞", label: "Coffees" },
 ];
 
 /* ── Hero code snippet visual ── */
@@ -82,11 +80,10 @@ export default function Home() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
-  // Role cycling
   useEffect(() => {
     const id = setInterval(
       () => setRoleIndex((p) => (p + 1) % roles.length),
-      2800,
+      2800
     );
     return () => clearInterval(id);
   }, []);
@@ -95,6 +92,7 @@ export default function Home() {
 
   return (
     <div className="relative">
+
       {/* ════════ HERO ════════ */}
       <section
         ref={heroRef}
@@ -109,22 +107,12 @@ export default function Home() {
         <motion.div
           className="glow-blob w-[500px] h-[500px] top-40 -right-60 bg-violet-500/[0.07]"
           animate={{ scale: [1, 1.08, 1], y: [0, -30, 0] }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 3,
-          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
         />
         <motion.div
           className="glow-blob w-[300px] h-[300px] bottom-20 left-1/3 bg-cyan-500/[0.05]"
           animate={{ scale: [1, 1.15, 1] }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 6,
-          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 6 }}
         />
 
         <motion.div
@@ -132,8 +120,12 @@ export default function Home() {
           className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full"
         >
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-80px)]">
+
             {/* LEFT: Text */}
-            <div className="flex flex-col justify-center py-16 lg:py-0">
+            {/* FIX: changed py-16 → pt-16 pb-24 so there's clear breathing room at the
+                 bottom on mobile before the next section appears on short Android screens */}
+            <div className="flex flex-col justify-center pt-16 pb-24 lg:py-0">
+
               {/* Availability badge */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -154,11 +146,7 @@ export default function Home() {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.3,
-                  duration: 0.6,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
+                transition={{ delay: 0.3, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="font-mono-custom text-zinc-500 text-sm mb-3 tracking-widest uppercase"
               >
                 Hi there, I'm
@@ -168,11 +156,7 @@ export default function Home() {
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.4,
-                  duration: 0.8,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
+                transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 className="font-display text-[clamp(4rem,12vw,8rem)] leading-none text-white mb-4 tracking-wide"
               >
                 CHIBUIKE
@@ -209,18 +193,20 @@ export default function Home() {
                 transition={{ delay: 0.7, duration: 0.6 }}
                 className="text-zinc-500 text-base leading-relaxed max-w-md mb-10"
               >
-                I design and build performant web applications with
-                pixel-perfect attention to detail. From concept to deployment —
-                I ship products that people love to use.
+                I design and build performant web applications with pixel-perfect
+                attention to detail. From concept to deployment — I ship products
+                that people love to use.
               </motion.p>
 
-              {/* CTAs */}
+              {/* CTAs
+                  FIX: removed style={{marginBottom:20}} — was only 20px.
+                  mb-10 is now handled by the description above, and pb-24
+                  on this column handles the bottom gap on mobile. */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.85, duration: 0.6 }}
                 className="flex flex-wrap gap-4"
-                style={{marginBottom:20}}
               >
                 <Link to="/projects">
                   <motion.span
@@ -247,15 +233,10 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{
-                delay: 0.6,
-                duration: 0.9,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+              transition={{ delay: 0.6, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="hidden lg:flex justify-center items-center relative"
-              style={{padding:20}}
+              style={{ padding: 20 }}
             >
-              {/* Outer ring */}
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -267,17 +248,11 @@ export default function Home() {
                 className="absolute w-[300px] h-[300px] rounded-full border border-dashed border-zinc-700/40"
               />
 
-              {/* Code card */}
               <motion.div
                 animate={{ y: [0, -14, 0] }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 className="relative bg-[#0d0d0d] border border-[#1e1e1e] rounded-2xl overflow-hidden shadow-2xl shadow-black w-full max-w-[340px]"
               >
-                {/* Traffic lights */}
                 <div className="flex items-center gap-2 px-5 py-4 border-b border-[#1e1e1e] bg-[#111]">
                   <div className="w-3 h-3 rounded-full bg-red-500/80" />
                   <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
@@ -286,7 +261,6 @@ export default function Home() {
                     developer.js
                   </div>
                 </div>
-                {/* Code lines */}
                 <div className="p-5 font-mono-custom text-sm leading-loose">
                   {codeLines.map((line, i) => (
                     <motion.div
@@ -297,15 +271,11 @@ export default function Home() {
                       className="flex"
                       style={{ paddingLeft: `${line.indent * 16}px` }}
                     >
-                      <span
-                        className="text-[13px]"
-                        style={{ color: line.color }}
-                      >
+                      <span className="text-[13px]" style={{ color: line.color }}>
                         {line.text}
                       </span>
                     </motion.div>
                   ))}
-                  {/* Blinking cursor */}
                   <motion.span
                     animate={{ opacity: [1, 0, 1] }}
                     transition={{ duration: 1, repeat: Infinity }}
@@ -314,38 +284,22 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Floating badge: React */}
               <motion.div
                 animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute -top-4 -left-4 bg-[#111] border border-[#1e1e1e] rounded-xl px-4 py-2.5 shadow-xl flex items-center gap-2"
               >
                 <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="font-mono-custom text-xs text-zinc-400">
-                  React 18
-                </span>
+                <span className="font-mono-custom text-xs text-zinc-400">React 18</span>
               </motion.div>
 
-              {/* Floating badge: TypeScript */}
               <motion.div
                 animate={{ y: [0, 10, 0] }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                 className="absolute -bottom-4 -right-4 bg-[#111] border border-[#1e1e1e] rounded-xl px-4 py-2.5 shadow-xl flex items-center gap-2"
               >
                 <div className="w-2 h-2 rounded-sm bg-blue-500" />
-                <span className="font-mono-custom text-xs text-zinc-400">
-                  Let's make magic!
-                </span>
+                <span className="font-mono-custom text-xs text-zinc-400">Let's make magic!</span>
               </motion.div>
             </motion.div>
           </div>
@@ -369,18 +323,22 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ════════ STATS BAND ════════ */}
-      <section className="py-14 border-y border-white/5 bg-[#0a0a0a] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
+      {/* ════════ STATS BAND ════════
+          FIX: Responsive grid — 2 cols on mobile with tighter gap and padding.
+          Stat values shrink on mobile so they don't overflow small Android screens.
+          Labels shortened to single-line friendly text ("Years Exp." not "Years Experience"). */}
+      <section className="py-10 sm:py-14 border-y border-white/5 bg-[#0a0a0a] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-10">
             {stats.map(({ icon: Icon, value, label }, i) => (
               <FadeIn key={label} delay={i * 0.08} y={20}>
-                <div className="flex flex-col items-center text-center gap-2 p-6 rounded-2xl bg-white/[0.025] border border-white/5">
-                  <Icon size={20} className="text-lime-400 mb-1" />
-                  <span className="font-display text-4xl lg:text-5xl text-white tracking-wide">
+                <div className="flex flex-col items-center text-center gap-1.5 sm:gap-2 p-4 sm:p-6 rounded-2xl bg-white/[0.025] border border-white/5">
+                  <Icon size={18} className="text-lime-400 mb-0.5" />
+                  {/* FIX: text-3xl on mobile → text-4xl sm → text-5xl lg */}
+                  <span className="font-display text-3xl sm:text-4xl lg:text-5xl text-white tracking-wide">
                     {value}
                   </span>
-                  <span className="font-mono-custom text-xs text-zinc-600 tracking-widest uppercase">
+                  <span className="font-mono-custom text-[10px] sm:text-xs text-zinc-600 tracking-widest uppercase leading-tight">
                     {label}
                   </span>
                 </div>
@@ -396,31 +354,28 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
-            {/* Left: text */}
             <div>
               <FadeIn>
                 <p className="section-label mb-6">About Me</p>
               </FadeIn>
               <FadeIn delay={0.1}>
                 <h2 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-wide text-white mb-6">
-                  BUILDING WITH
-                  <br />
+                  BUILDING WITH<br />
                   <span className="text-lime-400">PURPOSE</span>
                 </h2>
               </FadeIn>
               <FadeIn delay={0.2}>
                 <p className="text-zinc-500 leading-relaxed mb-5">
-                  I'm a full-stack developer with 5+ years of experience turning
-                  ambitious ideas into polished digital products. I obsess over
-                  performance, accessibility, and the small interactions that
-                  make interfaces feel alive.
+                  I'm a front-end developer with 5+ years of experience turning ambitious
+                  ideas into polished digital products. I obsess over performance,
+                  accessibility, and the small interactions that make interfaces feel alive.
                 </p>
               </FadeIn>
               <FadeIn delay={0.3}>
                 <p className="text-zinc-500 leading-relaxed mb-8">
-                  When I'm not shipping features, I'm open-sourcing tools,
-                  writing about frontend architecture, or exploring the
-                  intersection of design systems and developer experience.
+                  When I'm not shipping features, I'm open-sourcing tools, writing about
+                  frontend architecture, or exploring the intersection of design systems
+                  and developer experience.
                 </p>
               </FadeIn>
               <FadeIn delay={0.4}>
@@ -435,16 +390,12 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-[#111] border border-[#1e1e1e]">
                     <Zap size={16} className="text-lime-400" />
-                    <span className="text-sm text-zinc-400">
-                      Performance First
-                    </span>
+                    <span className="text-sm text-zinc-400">Performance First</span>
                   </div>
-                  
                 </div>
               </FadeIn>
             </div>
 
-            {/* Right: Tech stack grid */}
             <div>
               <FadeIn delay={0.15}>
                 <p className="section-label mb-6">Tech Stack</p>
@@ -453,18 +404,12 @@ export default function Home() {
                 {stack.map((tech, i) => (
                   <FadeIn key={tech.name} delay={0.2 + i * 0.04} y={20}>
                     <motion.div
-                      whileHover={{
-                        scale: 1.06,
-                        borderColor: tech.color + "44",
-                      }}
+                      whileHover={{ scale: 1.06, borderColor: tech.color + "44" }}
                       className="flex flex-col items-center gap-2 p-4 rounded-xl bg-[#111] border border-[#1e1e1e] transition-all duration-300 group"
                     >
                       <div
                         className="w-2 h-2 rounded-full group-hover:scale-110 transition-transform"
-                        style={{
-                          background: tech.color,
-                          boxShadow: `0 0 8px ${tech.color}55`,
-                        }}
+                        style={{ background: tech.color, boxShadow: `0 0 8px ${tech.color}55` }}
                       />
                       <span className="font-mono-custom text-[10px] text-zinc-500 text-center leading-tight tracking-wide group-hover:text-zinc-300 transition-colors">
                         {tech.name}
@@ -481,7 +426,6 @@ export default function Home() {
       {/* ════════ FEATURED PROJECTS ════════ */}
       <section className="py-28 bg-[#080808]">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
             <div>
               <FadeIn>
@@ -489,8 +433,7 @@ export default function Home() {
               </FadeIn>
               <FadeIn delay={0.1}>
                 <h2 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-wide text-white">
-                  FEATURED
-                  <br />
+                  FEATURED<br />
                   <span className="text-lime-400">PROJECTS</span>
                 </h2>
               </FadeIn>
@@ -508,7 +451,6 @@ export default function Home() {
             </FadeIn>
           </div>
 
-          {/* Featured grid */}
           <div className="grid lg:grid-cols-3 gap-6">
             {featuredProjects.map((project, i) => (
               <FadeIn key={project.id} delay={i * 0.1} y={50}>
@@ -517,10 +459,7 @@ export default function Home() {
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   className="group flex flex-col bg-[#111] border border-[#1e1e1e] rounded-2xl overflow-hidden hover:border-[#2a2a2a] transition-all duration-300 hover:shadow-2xl hover:shadow-black/50 h-full"
                 >
-                  {/* Gradient header */}
-                  <div
-                    className={`relative h-48 bg-gradient-to-br ${project.gradient} overflow-hidden`}
-                  >
+                  <div className={`relative h-48 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
                     <div
                       className="absolute inset-0 opacity-20"
                       style={{
@@ -534,22 +473,13 @@ export default function Home() {
                         {project.category}
                       </span>
                     </div>
-                    {/* Hover overlay */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-4 py-2 border border-white/30 rounded-full text-white/80 text-xs backdrop-blur-sm hover:bg-white/10 transition-colors"
-                      >
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
+                        className="px-4 py-2 border border-white/30 rounded-full text-white/80 text-xs backdrop-blur-sm hover:bg-white/10 transition-colors">
                         GitHub
                       </a>
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-4 py-2 bg-lime-400 rounded-full text-zinc-950 text-xs font-semibold hover:bg-lime-300 transition-colors"
-                      >
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+                        className="px-4 py-2 bg-lime-400 rounded-full text-zinc-950 text-xs font-semibold hover:bg-lime-300 transition-colors">
                         Live Demo
                       </a>
                     </div>
@@ -564,9 +494,7 @@ export default function Home() {
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {project.tags.slice(0, 4).map((tag) => (
-                        <span key={tag} className="tag-pill">
-                          {tag}
-                        </span>
+                        <span key={tag} className="tag-pill">{tag}</span>
                       ))}
                     </div>
                   </div>
@@ -589,8 +517,8 @@ export default function Home() {
             <span className="text-lime-400">LET'S BUILD IT.</span>
           </h2>
           <p className="text-zinc-500 mb-10 max-w-md mx-auto leading-relaxed">
-            Whether you need a new product built from scratch or want to level
-            up your existing platform — I'm here for it.
+            Whether you need a new product built from scratch or want to level up
+            your existing platform — I'm here for it.
           </p>
           <Link to="/contact">
             <motion.span
