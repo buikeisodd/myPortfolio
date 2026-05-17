@@ -14,7 +14,7 @@ import {
   ArrowUpRight,
   Triangle,
 } from "lucide-react";
-import { VercelIcon } from "../components/vercel";
+
 
 /*
  ╔══════════════════════════════════════════════════════════════╗
@@ -121,11 +121,7 @@ const socials = [
   { icon: Github, href: "https://github.com/buikeisodd", label: "GitHub" },
   { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
   { icon: Twitter, href: "https://twitter.com", label: "Twitter / X" },
-  {
-    icon: VercelIcon,
-    href: "https://vercel.com/buikeisodds-projects",
-    label: "Vercel",
-  },
+  
 ];
 
 const INITIAL_FORM = {
