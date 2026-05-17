@@ -29,7 +29,7 @@ import {
  ║  5. Replace the three constants below                        ║
  ╚══════════════════════════════════════════════════════════════╝
 */
-const EMAILJS_SERVICE_ID = "service_ivgu443"; // e.g. 'service_abc123'
+const EMAILJS_SERVICE_ID = "service_c20xz0r"; // e.g. 'service_abc123'
 const EMAILJS_TEMPLATE_ID = "template_s7hmc4a"; // e.g. 'template_xyz789'
 const EMAILJS_PUBLIC_KEY = "wxhJGw24FBv6lrjyN"; // e.g. 'aB1cD2eF3gH4...'
 
