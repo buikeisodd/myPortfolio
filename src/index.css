@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Tokens ── */
+:root {
+  --accent: #a3e635;
+  --accent-glow: rgba(163, 230, 53, 0.15);
+  --bg: #050505;
+  --surface: #0d0d0d;
+  --card: #111111;
+  --border: #1e1e1e;
+  --text: #fafafa;
+  --muted: #71717a;
+}
+
+/* ── Base ── */
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom pointer on desktop */
+@media (pointer: fine) {
+  * { cursor: none !important; }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* ── Selection ── */
+::selection { background: var(--accent); color: var(--bg); }
+
+/* ── Noise Grain Overlay ── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Glow ambient blobs in hero ── */
+.glow-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+/* ── Utility ── */
+.font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; }
+.font-mono-custom { font-family: 'JetBrains Mono', monospace; }
+
+/* Card hover glow */
+.card-hover {
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.card-hover:hover {
+  border-color: #2a2a2a;
+  box-shadow: 0 0 40px rgba(163, 230, 53, 0.07), 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: translateY(-4px);
+}
+
+/* Animated underline */
+.animated-underline {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size 0.4s ease;
+}
+.animated-underline:hover { background-size: 100% 2px; }
+
+/* Form input focus glow */
+.input-glow:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.12);
+}
+
+/* Shimmer text */
+.shimmer-text {
+  background: linear-gradient(90deg, var(--text) 0%, var(--accent) 50%, var(--text) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Tag pills */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: rgba(163, 230, 53, 0.08);
+  border: 1px solid rgba(163, 230, 53, 0.18);
+  border-radius: 9999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #a3e635;
+  letter-spacing: 0.03em;
+}
+
+/* Section label */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
