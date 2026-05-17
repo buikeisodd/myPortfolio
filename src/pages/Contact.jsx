@@ -367,6 +367,8 @@ export default function Contact() {
                           required
                           value={form.name}
                           onChange={handleChange}
+                          
+              
                         />
                         <FloatInput
                           id="email"

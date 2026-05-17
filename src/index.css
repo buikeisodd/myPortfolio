@@ -25,7 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom pointer on desktop */
+/* Custom cursor only on true pointer devices — NOT on touch/Android */
 @media (pointer: fine) {
   * { cursor: none !important; }
 }
@@ -38,18 +38,26 @@ body {
 /* ── Selection ── */
 ::selection { background: var(--accent); color: var(--bg); }
 
-/* ── Noise Grain Overlay ── */
-.grain-overlay {
+/*
+  GRAIN OVERLAY — REMOVED.
+  The SVG feTurbulence filter inside a CSS background-image causes
+  catastrophic rendering on Android Chrome (shows as full static/noise).
+  Replaced with a safe, hardware-accelerated subtle dot pattern below.
+*/
+
+/* ── Safe subtle texture (CSS only, no SVG filter, no feTurbulence) ── */
+body::before {
+  content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9998;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+  opacity: 0.018;
+  background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
-/* ── Glow ambient blobs in hero ── */
+/* ── Glow ambient blobs ── */
 .glow-blob {
   position: absolute;
   border-radius: 9999px;
@@ -61,13 +69,13 @@ body {
 .font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; }
 .font-mono-custom { font-family: 'JetBrains Mono', monospace; }
 
-/* Card hover glow */
+/* Card hover */
 .card-hover {
   transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 .card-hover:hover {
   border-color: #2a2a2a;
-  box-shadow: 0 0 40px rgba(163, 230, 53, 0.07), 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 40px rgba(163, 230, 53, 0.07), 0 20px 60px rgba(0,0,0,0.5);
   transform: translateY(-4px);
 }
 
@@ -81,7 +89,7 @@ body {
 }
 .animated-underline:hover { background-size: 100% 2px; }
 
-/* Form input focus glow */
+/* Form input focus */
 .input-glow:focus {
   outline: none;
   border-color: var(--accent);

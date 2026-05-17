@@ -23,17 +23,16 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <Router>
-      {/* Grain texture overlay */}
-      <div className="grain-overlay" aria-hidden="true" />
-      {/* Custom cursor (desktop only) */}
+      {/*
+        GRAIN OVERLAY DIV REMOVED — it was triggering the SVG feTurbulence
+        rendering bug on Android. Subtle texture now handled safely in index.css
+        using a CSS radial-gradient dot pattern instead.
+      */}
       <CustomCursor />
-      {/* Navigation */}
       <Navbar />
-      {/* Page content */}
       <main>
         <AnimatedRoutes />
       </main>
-      {/* Footer */}
       <Footer />
     </Router>
   )
