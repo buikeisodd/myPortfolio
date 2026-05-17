@@ -1,5 +1,4 @@
-import { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -12,26 +11,22 @@ import {
   AlertCircle,
   Loader2,
   ArrowUpRight,
-  Triangle,
 } from "lucide-react";
-
 
 /*
  ╔══════════════════════════════════════════════════════════════╗
- ║   EmailJS SETUP — read before deploying                      ║
+ ║   FORMSPREE SETUP — only 1 thing to change                   ║
  ║                                                              ║
- ║  1. Go to https://www.emailjs.com and create a free account  ║
- ║  2. Add an Email Service (Gmail, Outlook, etc.)              ║
- ║  3. Create an Email Template with these variables:           ║
- ║       {{user_name}}   {{user_email}}                         ║
- ║       {{subject}}     {{message}}                            ║
- ║  4. Grab your Service ID, Template ID, and Public Key        ║
- ║  5. Replace the three constants below                        ║
+ ║  1. Go to https://formspree.io and sign up free              ║
+ ║  2. Click "+ New Form", give it any name                     ║
+ ║  3. Copy the endpoint URL shown — looks like:                ║
+ ║       https://formspree.io/f/xyzabcde                        ║
+ ║  4. Paste it below replacing YOUR_FORM_ID                    ║
+ ║                                                              ║
+ ║  Done! No template, no service ID, no public key needed.     ║
  ╚══════════════════════════════════════════════════════════════╝
 */
-const EMAILJS_SERVICE_ID = "service_c20xz0r"; // e.g. 'service_abc123'
-const EMAILJS_TEMPLATE_ID = "template_s7hmc4a"; // e.g. 'template_xyz789'
-const EMAILJS_PUBLIC_KEY = "wxhJGw24FBv6lrjyN"; // e.g. 'aB1cD2eF3gH4...'
+const FORMSPREE_URL = "https://formspree.io/f/xlgvrzyo";
 
 /* ── Page transition ── */
 const PageWrapper = ({ children }) => (
@@ -58,7 +53,6 @@ const FloatInput = ({
 }) => {
   const isFilled = value.length > 0;
   const Tag = textarea ? "textarea" : "input";
-
   return (
     <div className="relative group">
       <Tag
@@ -84,8 +78,7 @@ const FloatInput = ({
           }
           peer-focus:top-2 peer-focus:-translate-y-0 peer-focus:text-[10px] peer-focus:tracking-wider peer-focus:text-lime-400 peer-focus:uppercase peer-focus:font-mono-custom
           ${textarea && !isFilled ? "!top-4 !-translate-y-0" : ""}
-          ${textarea && isFilled ? "!top-2" : ""}
-        `}
+          ${textarea && isFilled ? "!top-2" : ""}`}
       >
         {label}
       </label>
@@ -121,18 +114,11 @@ const socials = [
   { icon: Github, href: "https://github.com/buikeisodd", label: "GitHub" },
   { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
   { icon: Twitter, href: "https://twitter.com", label: "Twitter / X" },
-  
 ];
 
-const INITIAL_FORM = {
-  user_name: "",
-  user_email: "",
-  subject: "",
-  message: "",
-};
+const INITIAL_FORM = { name: "", email: "", subject: "", message: "" };
 
 export default function Contact() {
-  const formRef = useRef(null);
   const [form, setForm] = useState(INITIAL_FORM);
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
 
@@ -145,31 +131,37 @@ export default function Contact() {
     setStatus("sending");
 
     try {
-      await emailjs.sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        { publicKey: EMAILJS_PUBLIC_KEY },
-      );
-      setStatus("success");
-      setForm(INITIAL_FORM);
+      const res = await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        setForm(INITIAL_FORM);
+      } else {
+        const data = await res.json();
+        console.error("Formspree error:", data);
+        setStatus("error");
+      }
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Network error:", err);
       setStatus("error");
     }
   };
 
-  const resetStatus = () => setStatus("idle");
-
   return (
     <PageWrapper>
       <div className="min-h-screen pt-24 pb-28 relative overflow-hidden">
-        {/* Ambient blobs */}
         <div className="glow-blob w-[500px] h-[400px] -top-20 left-0 bg-lime-400/[0.04]" />
         <div className="glow-blob w-[400px] h-[400px] bottom-0 right-0 bg-violet-500/[0.05]" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
-          {/* ── Page header ── */}
+          {/* Header */}
           <div className="mb-16">
             <motion.p
               initial={{ opacity: 0, x: -20 }}
@@ -195,9 +187,9 @@ export default function Contact() {
             </motion.h1>
           </div>
 
-          {/* ── Two-column layout ── */}
+          {/* Two columns */}
           <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-20">
-            {/* LEFT: Info */}
+            {/* LEFT */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -213,25 +205,22 @@ export default function Contact() {
                 hours.
               </p>
 
-              {/* Contact info */}
               <div className="flex flex-col gap-7 mb-12">
                 <InfoItem
                   icon={Mail}
                   label="Email"
-                  value="chibuikeeseagwu02@gmail.com"
-                  href="mailto:chibuikeeseagwu02@gmail.com"
+                  value="alex@alexdev.io"
+                  href="mailto:alex@alexdev.io"
                 />
                 <InfoItem
                   icon={MapPin}
                   label="Location"
-                  value="Lagos, Nigeria — Remote Friendly"
+                  value="San Francisco, CA — Remote Friendly"
                 />
               </div>
 
-              {/* Divider */}
               <div className="h-px bg-white/5 mb-10" />
 
-              {/* Social links */}
               <div>
                 <p className="font-mono-custom text-[10px] tracking-widest text-zinc-700 uppercase mb-5">
                   Find me on
@@ -264,7 +253,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Availability tag */}
               <div className="mt-10 flex items-center gap-3 px-5 py-3.5 rounded-xl bg-lime-400/8 border border-lime-400/15 w-fit">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime-400 opacity-60" />
@@ -276,7 +264,7 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* RIGHT: Contact form */}
+            {/* RIGHT: Form */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -287,7 +275,6 @@ export default function Contact() {
               }}
             >
               <div className="bg-[#0d0d0d] border border-[#1e1e1e] rounded-2xl p-8 lg:p-10 relative overflow-hidden">
-                {/* Decorative corner accent */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-lime-400/[0.04] to-transparent rounded-2xl" />
 
                 <h2 className="font-display text-3xl tracking-wide text-white mb-2">
@@ -298,7 +285,7 @@ export default function Contact() {
                 </p>
 
                 <AnimatePresence mode="wait">
-                  {/* ── Success state ── */}
+                  {/* Success */}
                   {status === "success" && (
                     <motion.div
                       key="success"
@@ -327,7 +314,7 @@ export default function Contact() {
                         hours.
                       </p>
                       <button
-                        onClick={resetStatus}
+                        onClick={() => setStatus("idle")}
                         className="px-6 py-3 border border-zinc-700 text-zinc-400 text-sm rounded-full hover:border-lime-400 hover:text-lime-400 transition-all"
                       >
                         Send another
@@ -335,7 +322,7 @@ export default function Contact() {
                     </motion.div>
                   )}
 
-                  {/* ── Error state ── */}
+                  {/* Error */}
                   {status === "error" && (
                     <motion.div
                       key="error"
@@ -351,11 +338,11 @@ export default function Contact() {
                         SOMETHING WENT WRONG
                       </h3>
                       <p className="text-zinc-500 text-sm mb-6">
-                        The message couldn't be sent. Please check your EmailJS
-                        configuration or email me directly.
+                        Couldn't send the message. Double-check your Formspree
+                        URL or email me directly.
                       </p>
                       <button
-                        onClick={resetStatus}
+                        onClick={() => setStatus("idle")}
                         className="px-6 py-3 border border-zinc-700 text-zinc-400 text-sm rounded-full hover:border-red-400 hover:text-red-400 transition-all"
                       >
                         Try again
@@ -363,38 +350,34 @@ export default function Contact() {
                     </motion.div>
                   )}
 
-                  {/* ── Form ── */}
+                  {/* Form */}
                   {(status === "idle" || status === "sending") && (
                     <motion.form
                       key="form"
-                      ref={formRef}
                       onSubmit={handleSubmit}
                       initial={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       className="flex flex-col gap-4"
                     >
-                      {/* Row: name + email */}
                       <div className="grid sm:grid-cols-2 gap-4">
                         <FloatInput
-                          id="user_name"
-                          name="user_name"
+                          id="name"
+                          name="name"
                           label="Your Name"
                           required
-                          value={form.user_name}
+                          value={form.name}
                           onChange={handleChange}
                         />
                         <FloatInput
-                          id="user_email"
-                          name="user_email"
+                          id="email"
+                          name="email"
                           label="Email Address"
                           type="email"
                           required
-                          value={form.user_email}
+                          value={form.email}
                           onChange={handleChange}
                         />
                       </div>
-
-                      {/* Subject */}
                       <FloatInput
                         id="subject"
                         name="subject"
@@ -403,8 +386,6 @@ export default function Contact() {
                         value={form.subject}
                         onChange={handleChange}
                       />
-
-                      {/* Message */}
                       <FloatInput
                         id="message"
                         name="message"
@@ -415,7 +396,6 @@ export default function Contact() {
                         onChange={handleChange}
                       />
 
-                      {/* Submit button */}
                       <motion.button
                         type="submit"
                         disabled={status === "sending"}
@@ -424,23 +404,21 @@ export default function Contact() {
                         className={`mt-2 flex items-center justify-center gap-3 w-full py-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-lg ${
                           status === "sending"
                             ? "bg-lime-400/50 text-zinc-950/60 cursor-not-allowed"
-                            : "bg-lime-400 text-zinc-950 hover:bg-lime-300 shadow-lime-400/20 hover:shadow-lime-400/30"
+                            : "bg-lime-400 text-zinc-950 hover:bg-lime-300 shadow-lime-400/20"
                         }`}
                       >
                         {status === "sending" ? (
                           <>
-                            <Loader2 size={16} className="animate-spin" />
+                            <Loader2 size={16} className="animate-spin" />{" "}
                             Sending...
                           </>
                         ) : (
                           <>
-                            <Send size={15} strokeWidth={2.5} />
-                            Send Message
+                            <Send size={15} strokeWidth={2.5} /> Send Message
                           </>
                         )}
                       </motion.button>
 
-                      {/* Privacy note */}
                       <p className="text-center font-mono-custom text-[10px] text-zinc-700 tracking-wide mt-1">
                         Your information is private and never shared.
                       </p>
